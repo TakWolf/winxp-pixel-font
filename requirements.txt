@@ -1,0 +1,4 @@
+pixel-font-builder==0.0.32
+fonttools[woff]==4.56.0
+loguru==0.7.3
+cyclopts==3.9.0
