@@ -44,24 +44,24 @@ dump_configs = [
         sub_configs=[
             SubConfig(
                 font_number=0,
-                font_name='dotum',
-                serif_style=SerifStyle.SANS_SERIF,
-                width_style=WidthStyle.PROPORTIONAL,
-            ),
-            SubConfig(
-                font_number=1,
-                font_name='dotumche',
-                serif_style=SerifStyle.SANS_SERIF,
-            ),
-            SubConfig(
-                font_number=2,
                 font_name='gulim',
                 serif_style=SerifStyle.SANS_SERIF,
                 width_style=WidthStyle.PROPORTIONAL,
             ),
             SubConfig(
-                font_number=3,
+                font_number=1,
                 font_name='gulimche',
+                serif_style=SerifStyle.SANS_SERIF,
+            ),
+            SubConfig(
+                font_number=2,
+                font_name='dotum',
+                serif_style=SerifStyle.SANS_SERIF,
+                width_style=WidthStyle.PROPORTIONAL,
+            ),
+            SubConfig(
+                font_number=3,
+                font_name='dotumche',
                 serif_style=SerifStyle.SANS_SERIF,
             ),
         ],
@@ -85,7 +85,7 @@ dump_configs = [
             ),
             SubConfig(
                 font_number=1,
-                font_name='mingliunew',
+                font_name='pmingliu',
                 width_style=WidthStyle.PROPORTIONAL,
             ),
         ],
@@ -159,11 +159,15 @@ dump_configs = [
         sub_configs=[
             SubConfig(
                 font_number=0,
-                font_name='simsunnew',
+                font_name='simsun',
             ),
             SubConfig(
                 font_number=1,
-                font_name='simsun',
+                font_name='nsimsun',
+            ),
+            SubConfig(
+                font_number=2,
+                font_name='simsunpua',
             ),
         ],
     ),
