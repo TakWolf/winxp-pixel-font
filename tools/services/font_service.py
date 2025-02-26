@@ -50,6 +50,12 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                 builder.font_metric.vertical_layout.ascent = strike.bitmapSizeTable.vert.ascender
                 builder.font_metric.vertical_layout.descent = strike.bitmapSizeTable.vert.descender
 
+                # Fix incorrect descent
+                if builder.font_metric.horizontal_layout.descent > 0:
+                    builder.font_metric.horizontal_layout.descent *= -1
+                if builder.font_metric.vertical_layout.descent > 0:
+                    builder.font_metric.vertical_layout.descent *= -1
+
                 builder.meta_info.version = f'{tb_name.getDebugName(5)} - Dump {configs.version}'
                 builder.meta_info.created_time = datetime.datetime.fromisoformat(f'{configs.version.replace('.', '-')}T00:00:00Z')
                 builder.meta_info.modified_time = builder.meta_info.created_time
