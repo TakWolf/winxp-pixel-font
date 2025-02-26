@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables.BitmapGlyphMetrics import SmallGlyphMetrics, BigGlyphMetrics
@@ -17,14 +18,17 @@ from tools.configs import path_define, FontFormat
 class DumpLog:
     font_name: str
     font_size: int
+    family_name: str
 
     def __init__(
             self,
             font_name: str,
             font_size: int,
+            family_name: str,
     ):
         self.font_name = font_name
         self.font_size = font_size
+        self.family_name = family_name
 
 
 def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
@@ -161,5 +165,9 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                 dump_logs.append(DumpLog(
                     font_name=sub_config.font_name,
                     font_size=builder.font_metric.font_size,
+                    family_name=builder.meta_info.family_name,
                 ))
+
+    path_define.outputs_dir.joinpath('dump-logs.json').write_text(json.dumps([dump_log.__dict__ for dump_log in dump_logs], indent=2, ensure_ascii=False), 'utf-8')
+
     return dump_logs
