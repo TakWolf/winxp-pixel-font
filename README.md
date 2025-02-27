@@ -23,6 +23,7 @@ Windows XP 系统的点阵字体，提取自 Windows XP SP3 x86 官方镜像。
 ## 程序依赖
 
 - [Pixel Font Builder](https://github.com/TakWolf/pixel-font-builder)
+- [Pixel Font Knife](https://github.com/TakWolf/pixel-font-knife)
 - [FontTools](https://github.com/fonttools/fonttools)
 - [Loguru](https://github.com/Delgan/loguru)
 - [Cyclopts](https://github.com/BrianPugh/cyclopts)

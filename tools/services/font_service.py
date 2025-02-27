@@ -10,6 +10,7 @@ from fontTools.ttLib.tables._n_a_m_e import table__n_a_m_e
 from loguru import logger
 from pixel_font_builder import FontBuilder, Glyph
 from pixel_font_builder.opentype import Flavor
+from pixel_font_knife.mono_bitmap import MonoBitmap
 
 from tools import configs
 from tools.configs import path_define, FontFormat
@@ -159,8 +160,12 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                         components = glyph_info['components']
                         assert components is not None
 
-                        # TODO
-                        bitmap = []
+                        mono_bitmap = MonoBitmap.create(metrics.width, metrics.height)
+                        for component in components:
+                            component_bitmap = glyph_infos[component.name]['bitmap']
+                            assert component_bitmap is not None
+                            mono_bitmap = mono_bitmap.plus(MonoBitmap(component_bitmap), x=component.xOffset, y=component.yOffset)
+                        bitmap = mono_bitmap.data
                     else:
                         bitmap = glyph_info['bitmap']
                         assert bitmap is not None
