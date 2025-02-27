@@ -77,29 +77,59 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                 builder.meta_info.designer_url = tb_name.getDebugName(12)
                 builder.meta_info.license_url = tb_name.getDebugName(14)
 
-                glyph_data_cache = {}
+                glyph_infos = {}
                 for index_sub_table in strike.indexSubTables:
                     for glyph_name in index_sub_table.names:
-                        assert glyph_name not in glyph_data_cache
-                        glyph_data_cache[glyph_name] = {
+                        assert glyph_name not in glyph_infos
+                        bitmap_data = strike_data[glyph_name]
+                        assert isinstance(bitmap_data, ebdt_bitmap_classes[index_sub_table.imageFormat])
+
+                        if isinstance(bitmap_data, ebdt_bitmap_format_5):
+                            metrics = index_sub_table.metrics
+                        else:
+                            metrics = bitmap_data.metrics
+
+                        if isinstance(bitmap_data, (ebdt_bitmap_format_8, ebdt_bitmap_format_9)):
+                            bitmap = None
+                            components = bitmap_data.componentArray
+                        else:
+                            bitmap = []
+                            for row_n in range(metrics.height):
+                                row_bytes = bitmap_data.getRow(row_n, bitDepth=strike.bitmapSizeTable.bitDepth, metrics=metrics)
+                                row_string = ''
+                                for b in row_bytes:
+                                    row_string += f'{b:08b}'
+                                bitmap.append([int(c) for c in row_string])
+                            components = None
+
+                        glyph_infos[glyph_name] = {
                             'image_format': index_sub_table.imageFormat,
-                            'metrics': index_sub_table.metrics if hasattr(index_sub_table, 'metrics') else None,
+                            'metrics': metrics,
+                            'bitmap': bitmap,
+                            'components': components,
                         }
 
-                glyph_names = set()
-                for glyph_name, bitmap_data in strike_data.items():
-                    glyph_data = glyph_data_cache[glyph_name]
-                    assert isinstance(bitmap_data, ebdt_bitmap_classes[glyph_data['image_format']])
-                    if isinstance(bitmap_data, ebdt_bitmap_format_5):
-                        metrics = glyph_data['metrics']
-                    elif isinstance(bitmap_data, (ebdt_bitmap_format_8, ebdt_bitmap_format_9)):
-                        # TODO
-                        # https://github.com/NightFurySL2001/fonttools/tree/fix_ebdt
-                        continue
-                    else:
-                        metrics = bitmap_data.metrics
+                if '.notdef' not in glyph_infos:
+                    builder.glyphs.append(Glyph(
+                        name='.notdef',
+                        advance_width=builder.font_metric.font_size,
+                        advance_height=builder.font_metric.font_size,
+                    ))
 
-                    bitmap_height = metrics.height
+                glyph_names = set()
+                for code_point, glyph_name in sorted(tt_font.getBestCmap().items()):
+                    if glyph_name not in glyph_infos:
+                        continue
+                    builder.character_mapping[code_point] = glyph_name
+
+                    if glyph_name in glyph_names:
+                        continue
+                    glyph_names.add(glyph_name)
+
+                    glyph_info = glyph_infos[glyph_name]
+                    image_format = glyph_info['image_format']
+                    metrics = glyph_info['metrics']
+
                     if isinstance(metrics, SmallGlyphMetrics):
                         if strike.bitmapSizeTable.flags == 1:  # Horizontal
                             hori_bearing_x = metrics.BearingX
@@ -125,34 +155,24 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                         vert_bearing_y = metrics.vertBearingY
                         vert_advance = metrics.vertAdvance
 
-                    bitmap = []
-                    for row_n in range(bitmap_height):
-                        row_bytes = bitmap_data.getRow(row_n, bitDepth=strike.bitmapSizeTable.bitDepth, metrics=metrics)
-                        row_string = ''
-                        for b in row_bytes:
-                            row_string += f'{b:08b}'
-                        bitmap.append([int(c) for c in row_string])
+                    if image_format in (8, 9):
+                        components = glyph_info['components']
+                        assert components is not None
+
+                        # TODO
+                        bitmap = []
+                    else:
+                        bitmap = glyph_info['bitmap']
+                        assert bitmap is not None
 
                     builder.glyphs.append(Glyph(
                         name=glyph_name,
-                        horizontal_origin=(hori_bearing_x, hori_bearing_y - bitmap_height),
+                        horizontal_origin=(hori_bearing_x, hori_bearing_y - metrics.height),
                         advance_width=hori_advance,
                         vertical_origin=(vert_bearing_x, vert_bearing_y),
                         advance_height=vert_advance,
                         bitmap=bitmap,
                     ))
-                    glyph_names.add(glyph_name)
-
-                if '.notdef' not in glyph_names:
-                    builder.glyphs.insert(0, Glyph(
-                        name='.notdef',
-                        advance_width=builder.font_metric.font_size,
-                        advance_height=builder.font_metric.font_size,
-                    ))
-
-                for code_point, glyph_name in tt_font.getBestCmap().items():
-                    if glyph_name in glyph_names:
-                        builder.character_mapping[code_point] = glyph_name
 
                 for font_format in font_formats:
                     file_path = path_define.outputs_dir.joinpath(f'{sub_config.font_name}-{builder.font_metric.font_size}px.{font_format}')
