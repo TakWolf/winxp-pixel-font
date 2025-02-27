@@ -31,15 +31,6 @@ dump_configs = [
         ],
     ),
     DumpConfig(
-        font_file_name='cour.ttf',
-        sub_configs=[
-            SubConfig(
-                font_number=0,
-                font_name='cour',
-            ),
-        ],
-    ),
-    DumpConfig(
         font_file_name='gulim.ttc',
         sub_configs=[
             SubConfig(
