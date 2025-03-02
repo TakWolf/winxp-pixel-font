@@ -64,7 +64,7 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                 builder.meta_info.version = f'{tb_name.getDebugName(5)} - Dump {configs.version}'
                 builder.meta_info.created_time = datetime.datetime.fromisoformat(f'{configs.version.replace('.', '-')}T00:00:00Z')
                 builder.meta_info.modified_time = builder.meta_info.created_time
-                builder.meta_info.family_name = f'{tb_name.getDebugName(1).replace('-', ' ')} {builder.font_metric.font_size}px'
+                builder.meta_info.family_name = f'{tb_name.getDebugName(1)} {builder.font_metric.font_size}px'
                 builder.meta_info.weight_name = sub_config.weight_name
                 builder.meta_info.serif_style = sub_config.serif_style
                 builder.meta_info.slant_style = sub_config.slant_style
