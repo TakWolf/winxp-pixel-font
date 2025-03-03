@@ -7,7 +7,7 @@ from tools.configs import path_define, FontFormat
 from tools.services.font_service import DumpLog
 
 
-def make_release_zip(dump_logs: list[DumpLog], font_formats: list[FontFormat]):
+def make_release_zips(dump_logs: list[DumpLog], font_formats: list[FontFormat]):
     path_define.releases_dir.mkdir(parents=True, exist_ok=True)
 
     for font_format in font_formats:

@@ -31,7 +31,7 @@ def main(
         logger.info("Delete dir: '{}'", path_define.build_dir)
 
     dump_logs = font_service.dump_fonts(font_formats)
-    publish_service.make_release_zip(dump_logs, font_formats)
+    publish_service.make_release_zips(dump_logs, font_formats)
 
 
 if __name__ == '__main__':
