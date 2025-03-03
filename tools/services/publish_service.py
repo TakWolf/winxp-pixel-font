@@ -15,6 +15,7 @@ def make_release_zips(dump_logs: list[DumpLog], font_formats: list[FontFormat]):
         with zipfile.ZipFile(file_path, 'w') as file:
             file.write(path_define.project_root_dir.joinpath('LICENSE-FONT.md'), 'README.md')
             for dump_log in dump_logs:
-                file_path = path_define.outputs_dir.joinpath(f'{dump_log.font_name}-{dump_log.font_size}px.{font_format}')
-                file.write(file_path, file_path.name)
+                for font_size in dump_log.font_sizes:
+                    file_path = path_define.outputs_dir.joinpath(f'{dump_log.font_name}-{font_size}px.{font_format}')
+                    file.write(file_path, file_path.name)
         logger.info("Make release zip: '{}'", file_path)
