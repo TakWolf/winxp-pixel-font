@@ -1,3 +1,6 @@
+import json
+import re
+import shutil
 import zipfile
 
 from loguru import logger
@@ -19,3 +22,31 @@ def make_release_zips(dump_logs: list[DumpLog], font_formats: list[FontFormat]):
                     file_path = path_define.outputs_dir.joinpath(f'{dump_log.font_name}-{font_size}px.{font_format}')
                     file.write(file_path, file_path.name)
         logger.info("Make release zip: '{}'", file_path)
+
+
+def update_www(dump_logs: list[DumpLog]):
+    if path_define.www_fonts_dir.exists():
+        shutil.rmtree(path_define.www_fonts_dir)
+    path_define.www_fonts_dir.mkdir(parents=True)
+
+    for path_from in path_define.outputs_dir.iterdir():
+        if re.match(r'.*\.woff2', path_from.name) is None:
+            continue
+        path_to = path_define.www_fonts_dir.joinpath(path_from.name)
+        shutil.copyfile(path_from, path_to)
+        logger.info("Copy file: '{}' -> '{}'", path_from, path_to)
+
+    dump_logs_file_path = path_define.www_fonts_dir.joinpath('db.js')
+    dump_logs_file_path.write_text(f'export default {json.dumps([dump_log.__dict__ for dump_log in dump_logs], indent=4, ensure_ascii=False)}\n', 'utf-8')
+    logger.info("Build: '{}'", dump_logs_file_path)
+
+    css_file_path = path_define.www_fonts_dir.joinpath('index.css')
+    with css_file_path.open('w', encoding='utf-8') as file:
+        for dump_log in dump_logs:
+            for font_size in dump_log.font_sizes:
+                file.write('\n')
+                file.write('@font-face {\n')
+                file.write(f'    font-family: "{dump_log.family_name} {font_size}px";\n')
+                file.write(f'    src: url("{dump_log.font_name}-{font_size}px.woff2");\n')
+                file.write('}\n')
+    logger.info("Build: '{}'", css_file_path)
