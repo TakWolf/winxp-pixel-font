@@ -172,9 +172,9 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
 
                     builder.glyphs.append(Glyph(
                         name=glyph_name,
-                        horizontal_origin=(hori_bearing_x, hori_bearing_y - metrics.height),
+                        horizontal_offset=(hori_bearing_x, hori_bearing_y - metrics.height),
                         advance_width=hori_advance,
-                        vertical_origin=(vert_bearing_x, vert_bearing_y),
+                        vertical_offset=(vert_bearing_x, vert_bearing_y),
                         advance_height=vert_advance,
                         bitmap=bitmap,
                     ))
