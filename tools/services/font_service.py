@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables.BitmapGlyphMetrics import SmallGlyphMetrics, BigGlyphMetrics
@@ -62,7 +62,7 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                     builder.font_metric.vertical_layout.descent *= -1
 
                 builder.meta_info.version = f'{tb_name.getDebugName(5)} - Dump {configs.version}'
-                builder.meta_info.created_time = datetime.datetime.fromisoformat(f'{configs.version.replace('.', '-')}T00:00:00Z')
+                builder.meta_info.created_time = datetime.fromisoformat(f'{configs.version.replace('.', '-')}T00:00:00Z')
                 builder.meta_info.modified_time = builder.meta_info.created_time
                 builder.meta_info.family_name = f'{tb_name.getDebugName(1)} {builder.font_metric.font_size}px'
                 builder.meta_info.weight_name = sub_config.weight_name
