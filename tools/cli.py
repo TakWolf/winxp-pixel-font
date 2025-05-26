@@ -33,7 +33,7 @@ def main(
     dump_logs = font_service.dump_fonts(font_formats)
     publish_service.make_release_zips(dump_logs, font_formats)
 
-    if 'woff2' in font_formats:
+    if 'otf.woff2' in font_formats:
         publish_service.update_www(dump_logs)
 
 

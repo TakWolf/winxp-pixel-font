@@ -30,7 +30,7 @@ def update_www(dump_logs: list[DumpLog]):
     path_define.www_fonts_dir.mkdir(parents=True)
 
     for path_from in path_define.outputs_dir.iterdir():
-        if re.match(r'.*\.woff2', path_from.name) is None:
+        if re.match(r'.*\.otf.woff2', path_from.name) is None:
             continue
         path_to = path_define.www_fonts_dir.joinpath(path_from.name)
         shutil.copyfile(path_from, path_to)
@@ -47,6 +47,6 @@ def update_www(dump_logs: list[DumpLog]):
                 file.write('\n')
                 file.write('@font-face {\n')
                 file.write(f'    font-family: "{dump_log.family_name} {font_size}px";\n')
-                file.write(f'    src: url("{dump_log.font_name}-{font_size}px.woff2");\n')
+                file.write(f'    src: url("{dump_log.font_name}-{font_size}px.otf.woff2");\n')
                 file.write('}\n')
     logger.info("Build: '{}'", css_file_path)
