@@ -1,5 +1,5 @@
-pixel-font-builder==0.0.35
-pixel-font-knife==0.0.12
-fonttools[woff]==4.58.0
+pixel-font-builder==0.0.37
+pixel-font-knife==0.0.16
+fonttools[woff]==4.58.5
 loguru==0.7.3
-cyclopts==3.16.1
+cyclopts==3.22.1
