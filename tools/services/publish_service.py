@@ -6,7 +6,8 @@ import zipfile
 from loguru import logger
 
 from tools import configs
-from tools.configs import path_define, FontFormat
+from tools.configs import path_define
+from tools.configs.options import FontFormat
 from tools.services.font_service import DumpLog
 
 

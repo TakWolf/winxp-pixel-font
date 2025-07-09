@@ -12,7 +12,8 @@ from pixel_font_builder.opentype import Flavor
 from pixel_font_knife.mono_bitmap import MonoBitmap
 
 from tools import configs
-from tools.configs import path_define, FontFormat
+from tools.configs import path_define
+from tools.configs.options import FontFormat
 
 
 class DumpLog:

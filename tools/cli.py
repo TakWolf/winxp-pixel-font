@@ -4,7 +4,8 @@ from cyclopts import App, Parameter
 from loguru import logger
 
 from tools import configs
-from tools.configs import path_define, FontFormat
+from tools.configs import path_define, options
+from tools.configs.options import FontFormat
 from tools.services import font_service, publish_service
 
 app = App(
@@ -19,9 +20,9 @@ def main(
         font_formats: set[FontFormat] | None = None,
 ):
     if font_formats is None:
-        font_formats = configs.font_formats
+        font_formats = options.font_formats
     else:
-        font_formats = sorted(font_formats, key=lambda x: configs.font_formats.index(x))
+        font_formats = sorted(font_formats, key=lambda x: options.font_formats.index(x))
 
     logger.info('cleanup = {}', cleanup)
     logger.info('font_formats = {}', font_formats)
