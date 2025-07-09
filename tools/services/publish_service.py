@@ -1,5 +1,4 @@
 import json
-import re
 import shutil
 import zipfile
 
@@ -31,7 +30,7 @@ def update_www(dump_logs: list[DumpLog]):
     path_define.www_fonts_dir.mkdir(parents=True)
 
     for path_from in path_define.outputs_dir.iterdir():
-        if re.match(r'.*\.otf.woff2', path_from.name) is None:
+        if not path_from.name.endswith('.otf.woff2'):
             continue
         path_to = path_define.www_fonts_dir.joinpath(path_from.name)
         shutil.copyfile(path_from, path_to)
