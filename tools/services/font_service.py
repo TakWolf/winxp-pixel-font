@@ -195,6 +195,7 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                     logger.info("Make font: '{}'", file_path)
 
                 dump_log.font_sizes.append(builder.font_metric.font_size)
+
             dump_log.font_sizes.sort()
             dump_logs.append(dump_log)
     return dump_logs
