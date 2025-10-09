@@ -1,0 +1,12 @@
+[project]
+name = "winxp-pixel-font"
+version = "0.0.0"
+requires-python = ">=3.14"
+
+dependencies = [
+    "pixel-font-builder==0.0.41",
+    "pixel-font-knife==0.0.19",
+    "fonttools[woff]==4.60.1",
+    "loguru==0.7.3",
+    "cyclopts==3.24.0",
+]
