@@ -32,8 +32,7 @@ def update_www(dump_logs: list[DumpLog]):
     for path_from in path_define.outputs_dir.iterdir():
         if not path_from.name.endswith('.otf.woff2'):
             continue
-        path_to = path_define.www_fonts_dir.joinpath(path_from.name)
-        shutil.copyfile(path_from, path_to)
+        path_to = path_from.copy_into(path_define.www_fonts_dir)
         logger.info("Copy file: '{}' -> '{}'", path_from, path_to)
 
     dump_logs_file_path = path_define.www_fonts_dir.joinpath('db.js')
