@@ -36,4 +36,4 @@ Windows XP 系统的点阵字体，提取自 Windows XP SP3 x86 官方镜像。
 
 ### 构建程序
 
-使用 [「MIT 许可证」](LICENSE-MIT) 授权。
+采用 [MIT License](LICENSE-MIT) 授权。
