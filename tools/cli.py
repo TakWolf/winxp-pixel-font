@@ -9,7 +9,7 @@ from tools.configs.options import FontFormat
 from tools.services import font_service, publish_service
 
 app = App(
-    version=configs.version,
+    version=configs.VERSION,
     default_parameter=Parameter(consume_multiple=True),
 )
 
@@ -20,16 +20,16 @@ def main(
         font_formats: set[FontFormat] | None = None,
 ):
     if font_formats is None:
-        font_formats = options.font_formats
+        font_formats = options.FONT_FORMATS
     else:
-        font_formats = sorted(font_formats, key=lambda x: options.font_formats.index(x))
+        font_formats = sorted(font_formats, key=lambda x: options.FONT_FORMATS.index(x))
 
     logger.info('cleanup = {}', cleanup)
     logger.info('font_formats = {}', font_formats)
 
-    if cleanup and path_define.build_dir.exists():
-        shutil.rmtree(path_define.build_dir)
-        logger.info("Delete dir: '{}'", path_define.build_dir)
+    if cleanup and path_define.BUILD_DIR.exists():
+        shutil.rmtree(path_define.BUILD_DIR)
+        logger.info("Delete dir: '{}'", path_define.BUILD_DIR)
 
     dump_logs = font_service.dump_fonts(font_formats)
     publish_service.make_release_zips(dump_logs, font_formats)

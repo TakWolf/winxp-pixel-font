@@ -31,10 +31,10 @@ class DumpLog:
 
 
 def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
-    path_define.outputs_dir.mkdir(parents=True, exist_ok=True)
+    path_define.OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
 
     dump_logs = []
-    for dump_config in configs.dump_configs:
+    for dump_config in configs.DUMP_CONFIGS:
         for sub_config in dump_config.sub_configs:
             tt_font = TTFont(dump_config.font_file_path, fontNumber=sub_config.font_number)
             tb_name: table__n_a_m_e = tt_font['name']
@@ -61,8 +61,8 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                 if builder.font_metric.vertical_layout.descent > 0:
                     builder.font_metric.vertical_layout.descent *= -1
 
-                builder.meta_info.version = f'{tb_name.getDebugName(5)} - Dump {configs.version}'
-                builder.meta_info.created_time = datetime.fromisoformat(f'{configs.version.replace('.', '-')}T00:00:00Z')
+                builder.meta_info.version = f'{tb_name.getDebugName(5)} - Dump {configs.VERSION}'
+                builder.meta_info.created_time = datetime.fromisoformat(f'{configs.VERSION.replace('.', '-')}T00:00:00Z')
                 builder.meta_info.modified_time = builder.meta_info.created_time
                 builder.meta_info.family_name = f'{tb_name.getDebugName(1)} {builder.font_metric.font_size}px'
                 builder.meta_info.weight_name = sub_config.weight_name
@@ -184,7 +184,7 @@ def dump_fonts(font_formats: list[FontFormat]) -> list[DumpLog]:
                     ))
 
                 for font_format in font_formats:
-                    file_path = path_define.outputs_dir.joinpath(f'{sub_config.font_name}-{builder.font_metric.font_size}px.{font_format}')
+                    file_path = path_define.OUTPUTS_DIR.joinpath(f'{sub_config.font_name}-{builder.font_metric.font_size}px.{font_format}')
                     getattr(builder, f'save_{font_format.replace('.', '_')}')(file_path)
                     logger.info("Make font: '{}'", file_path)
 

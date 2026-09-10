@@ -2,9 +2,9 @@ from pixel_font_builder import SerifStyle, WidthStyle
 
 from tools.configs.dump import SubConfig, DumpConfig
 
-version = '2026.08.11'
+VERSION = '2026.08.11'
 
-dump_configs = [
+DUMP_CONFIGS = [
     DumpConfig(
         font_file_name='batang.ttc',
         sub_configs=[

@@ -39,5 +39,5 @@ class DumpConfig:
             font_file_name: str,
             sub_configs: list[SubConfig],
     ):
-        self.font_file_path = path_define.fonts_dir.joinpath(font_file_name)
+        self.font_file_path = path_define.FONTS_DIR.joinpath(font_file_name)
         self.sub_configs = sub_configs
