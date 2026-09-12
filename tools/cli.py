@@ -18,7 +18,7 @@ app = App(
 def main(
         cleanup: bool = False,
         font_formats: set[FontFormat] | None = None,
-):
+) -> None:
     if font_formats is None:
         font_formats = options.FONT_FORMATS
     else:

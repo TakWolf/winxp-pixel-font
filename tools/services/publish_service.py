@@ -10,7 +10,7 @@ from tools.configs.options import FontFormat
 from tools.services.font_service import DumpLog
 
 
-def make_release_zips(dump_logs: list[DumpLog], font_formats: list[FontFormat]):
+def make_release_zips(dump_logs: list[DumpLog], font_formats: list[FontFormat]) -> None:
     path_define.RELEASES_DIR.mkdir(parents=True, exist_ok=True)
 
     for font_format in font_formats:
@@ -24,7 +24,7 @@ def make_release_zips(dump_logs: list[DumpLog], font_formats: list[FontFormat]):
         logger.info("Make release zip: '{}'", file_path)
 
 
-def update_www(dump_logs: list[DumpLog]):
+def update_www(dump_logs: list[DumpLog]) -> None:
     if path_define.WWW_FONTS_DIR.exists():
         shutil.rmtree(path_define.WWW_FONTS_DIR)
     path_define.WWW_FONTS_DIR.mkdir(parents=True)

@@ -21,7 +21,7 @@ class SubConfig:
             serif_style: SerifStyle = SerifStyle.SERIF,
             slant_style: SlantStyle = SlantStyle.NORMAL,
             width_style: WidthStyle = WidthStyle.MONOSPACED,
-    ):
+    ) -> None:
         self.font_number = font_number
         self.font_name = font_name
         self.weight_name = weight_name
@@ -38,6 +38,6 @@ class DumpConfig:
             self,
             font_file_name: str,
             sub_configs: list[SubConfig],
-    ):
+    ) -> None:
         self.font_file_path = path_define.FONTS_DIR.joinpath(font_file_name)
         self.sub_configs = sub_configs

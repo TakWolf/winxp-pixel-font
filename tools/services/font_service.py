@@ -24,7 +24,7 @@ class DumpLog:
             self,
             family_name: str,
             font_name: str,
-    ):
+    ) -> None:
         self.family_name = family_name
         self.font_name = font_name
         self.font_sizes = []
